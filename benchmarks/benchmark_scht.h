@@ -1,0 +1,468 @@
+#pragma once
+
+#include "benchmark.h"
+#include "benchmarks/common.h"
+#include "wrappers/wrapper_scht.h"
+
+template <template <typename> typename Searcher>
+void benchmark_32_scht(sosd::Benchmark<uint32_t, Searcher>& benchmark) {}
+
+template <template <typename> typename Searcher>
+void benchmark_64_scht(sosd::Benchmark<uint64_t, Searcher>& benchmark) {
+/**
+ * The following configurations are used in the paper and are intended for reproduce experiments.
+ * Since BASIL, like SOSD, uses hard-coded configurations, #ifdef and #endif are employed to reduce
+ * benchmark build times. If you wish to use a different configuration, please declare it outside 
+ * the #ifdef and #endif blocks and use it without additional compile macro options.
+*/
+#ifdef USER 
+  benchmark.template Run<sCHT<uint64_t, 1024, 127, 1>>();
+#endif
+#ifdef PERF // Section 5.1
+  benchmark.template Run<sCHT<uint64_t, 1024, 131071, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 131068, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 131056, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 131008, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 130816, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 130048, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 126976, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 114688, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 65536, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32767, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32764, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32752, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32704, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32512, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 31744, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 28672, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 16384, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8191, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8188, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8176, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8128, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 7936, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 7168, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 4096, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2047, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2044, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2032, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1984, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1792, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1024, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 511, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 508, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 496, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 448, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 256, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 127, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 124, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 112, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 64, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 31, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 28, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 16, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 7, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 4, 4>>();
+#endif
+#ifdef SPEEDUP // Section 5.2
+  benchmark.template Run<sCHT<uint64_t, 1024, 2097151, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2097150, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2097148, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2097144, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2097136, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2097120, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2097088, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2097024, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2096896, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2096640, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2096128, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2095104, 2048>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2093056, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2088960, 8192>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2080768, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2064384, 32768>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2031616, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1966080, 131072>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1835008, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1572864, 524288>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1048576, 1048576>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 524287, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 524286, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 524284, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 524280, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 524272, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 524256, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 524224, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 524160, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 524032, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 523776, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 523264, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 522240, 2048>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 520192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 516096, 8192>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 507904, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 491520, 32768>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 458752, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 393216, 131072>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 262144, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 131071, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 131070, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 131068, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 131064, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 131056, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 131040, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 131008, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 130944, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 130816, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 130560, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 130048, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 129024, 2048>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 126976, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 122880, 8192>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 114688, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 98304, 32768>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 65536, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32767, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32766, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32764, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32760, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32752, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32736, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32704, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32640, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32512, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32256, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 31744, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 30720, 2048>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 28672, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 24576, 8192>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 16384, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8191, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8190, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8188, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8184, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8176, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8160, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8128, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8064, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 7936, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 7680, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 7168, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 6144, 2048>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 4096, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2047, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2046, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2044, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2040, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2032, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2016, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1984, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1920, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1792, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1536, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1024, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 511, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 510, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 508, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 504, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 496, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 480, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 448, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 384, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 256, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 127, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 126, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 124, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 120, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 112, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 96, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 64, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 31, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 30, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 28, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 24, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 16, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 7, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 6, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 4, 4>>();
+#endif
+#ifdef DESIGNSPACE // Section 5.3
+  benchmark.template Run<sCHT<uint64_t, 1024, 7, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 6, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 4, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 31, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 30, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 28, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 24, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 16, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 127, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 126, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 124, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 120, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 112, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 96, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 64, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 511, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 510, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 508, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 504, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 496, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 480, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 448, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 384, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 256, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 2047, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 2046, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 2044, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 2040, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 2032, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 2016, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 1984, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 1920, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 1792, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 1536, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 1024, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 8191, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 8190, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 8188, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 8184, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 8176, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 8160, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 8128, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 8064, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 7936, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 7680, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 7168, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 6144, 2048>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 4096, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32767, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32766, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32764, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32760, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32752, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32736, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32704, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32640, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32512, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 32256, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 31744, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 30720, 2048>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 28672, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 24576, 8192>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 16384, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 131071, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 131070, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 131068, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 131064, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 131056, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 131040, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 131008, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 130944, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 130816, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 130560, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 130048, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 129024, 2048>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 126976, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 122880, 8192>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 114688, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 98304, 32768>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 65536, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 524287, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 524286, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 524284, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 524280, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 524272, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 524256, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 524224, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 524160, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 524032, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 523776, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 523264, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 522240, 2048>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 520192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 516096, 8192>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 507904, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 491520, 32768>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 458752, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 393216, 131072>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 262144, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2097151, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2097150, 2>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2097148, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2097144, 8>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2097136, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2097120, 32>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2097088, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2097024, 128>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2096896, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2096640, 512>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2096128, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2095104, 2048>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2093056, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2088960, 8192>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2080768, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2064384, 32768>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 2031616, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 1966080, 131072>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 1835008, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 1572864, 524288>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 1048576, 1048576>>();
+#endif
+#ifdef PARETO_AVG_STACK // Section 5.4.1
+  benchmark.template Run<sCHT<uint64_t, 512, 524290, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 131072, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 32768, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 8192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2050, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 130, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 64, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 64, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 4, 1>>();
+#endif
+#ifdef PARETO_AVG_COVID // Section 5.4.1
+  benchmark.template Run<sCHT<uint64_t, 64, 524288, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 131072, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 8192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2050, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 512, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 130, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 58, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 16, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 4, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 4, 1>>();
+#endif
+#ifdef PARETO_AVG_HISTORY // Section 5.4.1
+  benchmark.template Run<sCHT<uint64_t, 1024, 524290, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 131072, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 8192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2050, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 514, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 130, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 58, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 16, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8, 1>>();
+#endif
+#ifdef PARETO_AVG_BOOKS // Section 5.4.1
+  benchmark.template Run<sCHT<uint64_t, 128, 1048576, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 131072, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 8192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1024, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 256, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 34, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 32, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 32, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 16, 1>>();
+#endif
+#ifdef PARETO_AVG_OSM // Section 5.4.1
+  benchmark.template Run<sCHT<uint64_t, 128, 2097152, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 64, 131072, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 32768, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 16384, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 2048, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 898, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 256, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 16, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 16, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 8, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 8, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 32, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 32, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 32, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 16, 1>>();
+#endif
+#ifdef PARETO_AVG_GENOME // Section 5.4.1
+  benchmark.template Run<sCHT<uint64_t, 64, 4194304, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 131072, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 8194, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 2050, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 514, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 256, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 256, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 64, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 16, 1>>();
+#endif
+#ifdef PARETO_TAIL_STACK // Section 5.4.2
+  benchmark.template Run<sCHT<uint64_t, 256, 1048576, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 131072, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 8192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 4096, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1024, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 64, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 64, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 16, 1>>();
+#endif
+#ifdef PARETO_TAIL_COVID // Section 5.4.2
+  benchmark.template Run<sCHT<uint64_t, 64, 524288, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 32768, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 8192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 4096, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 512, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 64, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 32, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 16, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 16, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 8, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 16, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 16, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 8, 4>>();
+#endif
+#ifdef PARETO_TAIL_HISTORY // Section 5.4.2
+  benchmark.template Run<sCHT<uint64_t, 64, 524288, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 65536, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 131072, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 8192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1024, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 256, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 64, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 64, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 32, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 32, 1>>();
+#endif
+#ifdef PARETO_TAIL_BOOKS // Section 5.4.2
+  benchmark.template Run<sCHT<uint64_t, 64, 1048576, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 524288, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 65536, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 8192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 4096, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 256, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 64, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 32, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 32, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 16, 1>>();
+#endif
+#ifdef PARETO_TAIL_OSM // Section 5.4.2
+  benchmark.template Run<sCHT<uint64_t, 64, 262144, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 65536, 65536>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 65536, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 256, 16384, 1024>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 4096, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 1024, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 256, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 64, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 16, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 8, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 8, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 8, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 32, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 32, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 8192, 4, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 32, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 32, 4>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 16, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 16, 1>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 16, 16>>();
+#endif
+#ifdef PARETO_TAIL_GENOME // Section 5.4.2
+  benchmark.template Run<sCHT<uint64_t, 64, 262144, 262144>>();
+  benchmark.template Run<sCHT<uint64_t, 128, 131072, 16384>>();
+  benchmark.template Run<sCHT<uint64_t, 512, 8192, 4096>>();
+  benchmark.template Run<sCHT<uint64_t, 1024, 4096, 256>>();
+  benchmark.template Run<sCHT<uint64_t, 2048, 512, 64>>();
+  benchmark.template Run<sCHT<uint64_t, 4096, 256, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 16384, 256, 16>>();
+  benchmark.template Run<sCHT<uint64_t, 32768, 1024, 1>>();
+#endif
+}
+
+INSTANTIATE_TEMPLATES(benchmark_32_scht, uint32_t);
+INSTANTIATE_TEMPLATES(benchmark_64_scht, uint64_t);

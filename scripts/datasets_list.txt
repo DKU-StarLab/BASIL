@@ -1,0 +1,13 @@
+fb_200M_uint64
+genome_200M_uint64
+books_200M_uint64
+covid_200M_uint64
+stack_200M_uint64
+wise_200M_uint64
+history_200M_uint64
+libio_200M_uint64
+osm_200M_uint64
+planet_200M_uint64
+
+books_800M_uint64
+osm_800M_uint64
