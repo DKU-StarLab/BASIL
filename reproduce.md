@@ -21,7 +21,8 @@ pip3 install -r requirements.txt
 ### 2. Reproduce all with a single execution
 - Execute sudo `sudo ./scripts/reproduce/reproduce.sh` (Root privileges are required for perf counter)
 - Results will be saved as CSV files in the `results/` folder, and graphs will be saved in the `results/graphs/` folder.
-- Depending on the hardware, the tests may take several days. 
+- Depending on the hardware, the tests may take several days.
+  - In my environment, it took approximately **3 ~ 4 days** to complete all the experiments.
 
 ### 3. Reproduce each experiment result and graph individually
 #### (0) Download datasets, build benchmarks, and generate query files.
