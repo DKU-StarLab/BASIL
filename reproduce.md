@@ -1,3 +1,16 @@
+## Notice of Minor Update for Reviewers
+Dear Reviewers,
+
+I would like to inform you of a minor update to the submitted artifact. **If this update causes any issues during your review, please kindly evaluate the previously [submitted commit version](https://github.com/DKU-StarLab/BASIL/tree/a142fdb66c56261bd62e19029fe7aed151578c4f).**
+
+- Flexibility: We have added more detailed explanations in the README.md regarding the dataset and hyper-parameter setup.
+
+- Single Execution: Previously, users had to manually install dependencies via commands before running the single execution script. Now, the installation commands for dependencies are included in the single execution process.
+
+Please note that the artifact's code itself has not been modified in any way, so the changes will not affect the experiments or reproducibility of the results. These updates are purely to provide more clarity and convenience for users.
+
+I apologize for any inconvenience this may have caused.
+
 ## Reproduction
 We provide all the experimental results of the paper for reproduction. 
 
