@@ -33,7 +33,7 @@ LIST
 ```
 
 ## 2. Build
-### (1) Clone the repository and install dependencies.
+### 2.1. Clone the repository and install dependencies.
 On vanilla Ubuntu 20.04 LTS:
 ```bash
 git clone https://github.com/DKU-StarLab/BASIL.git
@@ -42,7 +42,7 @@ sudo apt -y update
 sudo apt -y install zstd python3-pip m4 cmake clang libboost-all-dev 
 pip3 install -r requirements.txt
 ```
-### (2) Download datasets, build benchmarks, and generate query files.
+### 2.2. Download datasets, build benchmarks, and generate query files.
 ```bash
 ./scripts/download_data.sh
 ./scripts/prepare.sh
@@ -50,7 +50,7 @@ pip3 install -r requirements.txt
 ```
 
 ## 3. Run
-### (1) Benchmarks Types
+### 3.1. Benchmarks Types
 Five types of benchmarks can be conducted using the following scripts. All benchmarks measure the build time and index size according to the hyper-parameters of each index. The results from the scripts are saved as CSV files in the `results/` folder.
 - `scripts/excute_avg.sh`: Measures the average lookup latency.
 - `scripts/excute_tail.sh`: Measures the lookup latency at 0/50/90/99/99.9/99.99%th percentiles.
@@ -58,13 +58,48 @@ Five types of benchmarks can be conducted using the following scripts. All bench
 - `scripts/excute_perf.sh`: Measures the perf counter (LLC, TLB, Branch, Instructions) of prediction and correction separately.
 - `scripts/excute_build.sh`: Does not perform lookups. 
 
-### (2) Index Hyper-parameter Setting (Templates)
+### 3.2. Dataset
+- `scripts/datasets_list.txt`: List of all available datasets.
+- `scripts/datasets_run.txt`: List of datasets to be run by the benchmark script in section 3.1.
+- Modify `scripts/datasets_run.txt` to change the datasets for benchmarking.
+
+
+### 3.3. Index Hyper-parameter
 - Benchmarks can be performed by setting each index using the templates in the `benchmarks/` folder. This method of using templates is inherited from SOSD to avoid accidentally measuring vtable lookup times. However, this can lead to long benchmark build times.
 - The `benchmarks/` folder contains parameters used in the paper's experiments. To avoid unnecessary long build times by compiling unnecessary templates, conditional compilation directives (`#ifdef`, `#endif`) were used to restrict compilation to only the required templates.
-- If a user wants to perform a benchmark with newly defined parameters, they can input the parameters in the section defined by `#ifdef USER`, compile with `scripts/prepare.sh`, and then run the benchmark execution scripts described above.
 - ⚠️ Note: When changing conditional compilation directives (`#ifdef`, `#endif`) for a build, please reset the macro options stored in the CMake cache (`rm -rf build/CMakeCache.txt build/CMakeFiles/`). Otherwise, previously used conditional compilation directives may be included in the build. 
+  
+### 3.4. "User-defined" Hyper-parameter Setup
+- If a user wants to perform a benchmark with newly defined parameters, they config parameters
+in the section defined by `#ifdef USER` in the templates in the `benchmarks/` folder, compile with `scripts/prepare.sh`, and then run the benchmark execution scripts described above 3.1.
+- Parameter Description for Each Index Template
+```c++
+// Parameters that can be modified in the template example code below are marked with ''.
+// Refer to sections 2.2, 4.1, and Table 1 of the paper for a description of each parameter.
 
-### (3) Reproduction
+// binary search (no parameter)
+benchmark.template Run<BinarySearch<uint64_t>>();
+
+// traditional indexes
+benchmark.template Run<ARTPrimaryLB<'sampling interval (I)'>>();
+benchmark.template Run<STXBTree<uint64_t, 'sampling interval (I)'>>();
+benchmark.template Run<InterpolationBTree<uint64_t, 'sampling interval (I)'>>();
+
+// learned & histogram indexes
+benchmark.template Run<sRadixTable<uint64_t, 'radix bits (r)', 'sampling interval (I)'>>();
+benchmark.template Run<
+    sRMICppRobust<uint64_t, srmi::LinearSpline, srmi::LinearRegression,
+                srmi::sRmiRobust, '# of segments (branching factor, b)', 0, 1, 'sampling interval (I)'>>();
+// Since '𝛿(= 𝜀 − 𝐼 + 1) ≥ 0', it must hold that '𝐼 ≤ 𝜀 + 1'. (Theorem 3.1 / 3.2)
+benchmark.template Run<sCHT<uint64_t, '# of bins (2^r)', 'error bound (𝜀)', 'sampling interval (I)'>>();
+benchmark.template Run<sRS<uint64_t, 'radix bits (r)', 'error bound (𝜀)', 'sampling interval (I)'>>();
+benchmark.template Run<sPGM<uint64_t, '(bottom) error bound (𝜀_b)', '(bottom) sampling interval (I)',
+                '(upper) error bound (𝜀_u)', '(upper) sampling interval (I)'>>();
+```
+
+
+
+### 3.5. Reproduction
 For reproduction, please refer to [reproduce.md](./reproduce.md) file.
 
 

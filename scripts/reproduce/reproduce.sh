@@ -2,6 +2,10 @@
 set -e
 echo "Reproducing artifacts ..."
 
+sudo apt -y update
+sudo apt -y install zstd python3-pip m4 cmake clang libboost-all-dev 
+pip3 install -r requirements.txt
+
 # Download Dataset
 ./scripts/download.sh
 
