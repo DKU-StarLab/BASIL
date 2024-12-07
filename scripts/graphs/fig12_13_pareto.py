@@ -76,26 +76,21 @@ def plotIndexTail(fig, df, index, x_axis, y_axis, size=7):
 def Plot2DPareto(indexes, tail=False, size=7):    
     datasets = ['stack', 'covid', 'history', 'books', 'osm', 'genome']
     path = "./results/"
+    y_axis_step = 0
     
     if not tail:
         suffix = "_200M_uint64_results_table_pareto.csv"
+        y_axis_step = 200
+        df_col = 'average'
     else:
         suffix = "_200M_uint64_results_tail_pareto.csv"
+        y_axis_step = 300
+        df_col = '0.999'
         
     fig, axes = plt.subplots(2, 3)
     fig.set_size_inches((11, 7))
     
-    # x-axis
-    x_axis_values = [r'$10^{0}$', r'$10^{1}$', r'$10^{2}$', r'$10^{3}$', r'$10^{4}$']
-    x_axis_ticks = list(map(lambda x: 10 **(6+x), range(0, len(x_axis_values))))
-    
-    # average y-axis
-    avg_y_axis_values = [0, 200, 400, 600, 800] 
-    avg_y_axis_ticks= list(map(lambda x: 200 * x, range(0, len(avg_y_axis_values))))
-    
-    # tail y-axis
-    tail_y_axis_values = [600, 900, 1200, 1500, 1800] 
-    tail_y_axis_ticks= list(map(lambda x: 600 + 300 * x, range(0, len(tail_y_axis_values))))
+    y_axis_min = 100000000; y_axis_max = 0
     
     for k, dataset in enumerate(datasets):
         i = k // 3; j = k % 3
@@ -103,10 +98,37 @@ def Plot2DPareto(indexes, tail=False, size=7):
         
         for index in indexes:
             if not tail:
-                plotIndexAvg(axes[i, j], df, index, 'build', 'average', size)
+                plotIndexAvg(axes[i, j], df, index, 'build', df_col, size)
             else:
-                plotIndexTail(axes[i, j], df, index, 'build', '0.999', size)
+                plotIndexTail(axes[i, j], df, index, 'build', df_col, size)
         
+        temp_y_axis_min = df[df_col].min()
+        temp_y_axis_max = df[df['index']=="BinarySearch"][df_col].values[0]
+        
+        if y_axis_min > temp_y_axis_min:
+            y_axis_min = temp_y_axis_min
+        
+        if y_axis_max < temp_y_axis_max:
+            y_axis_max = temp_y_axis_max
+
+    # y-axis
+    y_axis_min = (int) (y_axis_min // 100) * 100 - 100
+    y_axis_max = (int) (y_axis_max // 100 + 1) * 100
+    if tail: y_axis_max += 100
+    
+    if y_axis_min < 0:
+        y_axis_min = 0
+        
+    y_axis_values = list(range(y_axis_min, y_axis_max + 1, y_axis_step))
+    y_axis_ticks= list(map(lambda x: y_axis_min + y_axis_step * x, range(0, len(y_axis_values))))
+    
+    # x-axis
+    x_axis_values = [r'$10^{0}$', r'$10^{1}$', r'$10^{2}$', r'$10^{3}$', r'$10^{4}$']
+    x_axis_ticks = list(map(lambda x: 10 **(6+x), range(0, len(x_axis_values))))
+    
+    for k, dataset in enumerate(datasets):
+        i = k // 3; j = k % 3
+                
         axes[i,j].set_title(dataset, size=14)
         axes[i,j].set_xscale('log')
         axes[i,j].grid(linestyle='--')
@@ -116,14 +138,9 @@ def Plot2DPareto(indexes, tail=False, size=7):
         axes[i,j].set_xticklabels(x_axis_values)
         axes[i,j].set_xlabel('Build time (ms)', size=14)
         
-        if not tail:
-            axes[i,j].set_ylim(0, 800)
-            axes[i,j].set_yticks(avg_y_axis_ticks)
-            axes[i,j].set_yticklabels(avg_y_axis_values)
-        else:
-            axes[i,j].set_ylim(550,1800)
-            axes[i,j].set_yticks(tail_y_axis_ticks)
-            axes[i,j].set_yticklabels(tail_y_axis_values)
+        axes[i,j].set_ylim(y_axis_min, y_axis_max)
+        axes[i,j].set_yticks(y_axis_ticks)
+        axes[i,j].set_yticklabels(y_axis_values)
   
         if j == 0:
             if not tail:
@@ -132,12 +149,6 @@ def Plot2DPareto(indexes, tail=False, size=7):
                 axes[i,j].set_ylabel('99.9%th lookup latency (ns)', size=14)
         
     lines, labels = fig.axes[-1].get_legend_handles_labels()    
-    # lines = lines[::-1]
-    # labels = labels[::-1] 
-    
-    # new_order = [2, 1, 0, 3, 4, 5, 7, 6, 8]
-    # lines = [lines[i] for i in new_order]
-    # labels = [labels[i] for i in new_order]
 
     fig.legend(lines, labels, bbox_to_anchor=(1.1, 0.5), loc = 'right', ncol=1, frameon=True, fontsize=13)    
     plt.subplots_adjust(left=0.1, right=0.9, bottom=0.1, top=0.9, wspace=0.2, hspace=0.4)

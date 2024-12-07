@@ -1,16 +1,3 @@
-## Notice of Minor Update for Reviewers
-Dear Reviewers,
-
-I would like to inform you of a minor update to the submitted artifact. **If this update causes any issues during your review, please kindly evaluate the previously [submitted commit version](https://github.com/DKU-StarLab/BASIL/tree/a142fdb66c56261bd62e19029fe7aed151578c4f).**
-
-- Flexibility: We have added more detailed explanations in the README.md regarding the dataset and hyper-parameter setup.
-
-- Single Execution: Previously, users had to manually install dependencies via commands before running the single execution script. Now, the installation commands for dependencies are included in the single execution process.
-
-Please note that the artifact's code itself has not been modified in any way, so the changes will not affect the experiments or reproducibility of the results. These updates are purely to provide more clarity and convenience for users.
-
-I apologize for any inconvenience this may have caused.
-
 ## Reproduction
 We provide all the experimental results of the paper for reproduction. 
 
@@ -49,27 +36,78 @@ pip3 install -r requirements.txt
 ./scripts/generate.sh
 ```
 
-#### 3.3. Section 5.1: Sampling Impact
-- `./scripts/reproduce/reproduce_meta.sh`: Measures the impact on the internal structure, accuracy, and changes in prediction/correction latency of indexes such as sRMI, sPGM, sRS, and sCHT according to the sampling interval.
-- `sudo ./scripts/reproduce/reproduce_perf.sh`: Measures changes in the perf counter for prediction/correction of sRMI, sPGM, sRS, and sCHT according to the sampling interval. (Root privileges are required for perf counter)
-- `fig6_sampling_impact_srmi.py`, `tbl2_sampling_impact_rmi.py`, `fig7_sampling_impact_spgm.py`, `fig8_sampling_impact_srs.py`, `fig9_sampling_impact_scht.py`: Reproduce each graph and table.
+### **3.3. Section 5.1: Sampling Impact**  
+- **Experiment:**  
+  - `./scripts/reproduce/reproduce_meta.sh`: Measures changes in performance counters for prediction and correction.  
+  - `sudo ./scripts/reproduce/reproduce_perf.sh`: Measures changes in performance counters for prediction and correction (Root privileges are required to access performance counters).  
 
-#### 3.4. Section 5.2: Build Speedup
-- `./scripts/reproduce/reproduce_speedup.sh`: Measures the build speedup according to the safe interval of sRMI, sPGM, sRS, and sCHT on various 8 datasets.
-- `./scripts/graphs/fig10_build_speedup.py`: Reproduce graph. 
+- **Reproduce Figure:**  
+  - `python3 ./scripts/graphs/fig6_sampling_impact_srmi.py`  
+  - `python3 ./scripts/graphs/tbl2_sampling_impact_rmi.py`  
+  - `python3 ./scripts/graphs/fig7_sampling_impact_spgm.py`  
+  - `python3 ./scripts/graphs/fig8_sampling_impact_srs.py`  
+  - `python3 ./scripts/graphs/fig9_sampling_impact_scht.py`  
 
-#### 3.5. Section 5.3: Design Space
-- `./scripts/reproduce/reproduce_speedup.sh`: Measures the boarden design space through sampling of sRMI, sPGM, sRS, and sCHT in the History dataset.
-- `./scripts/graphs/fig10_build_speedup.py`: Reproduce graph.
+- **Configurations:**  
+  - **Index Structure:** sRMI, sPGM, sRS, sCHT  
+  - **Dataset:** `history` listed in `datasets_meta.txt`  
+  - **Compiler Macro:** `PERF` in `\benchmarks`  
 
-#### 3.6. Section 5.4: Pareto Anaylsis
-- `./scripts/reproduce/reproduce_pareto_avg.sh`: Compares the average lookup latency according to build time of 8 different indexes on various 6 datasets.
-- `./scripts/reproduce/reproduce_pareto_avg.sh`: Compares the 99.9%th lookup latency according to build time of 8 different indexes on various 6 datasets.
-- `./scripts/graphs/fig12_13_pareto.py`: Reproduce graphs.
+### **3.4. Section 5.2: Build Speedup**  
+- **Experiment:**  
+  - `./scripts/reproduce/reproduce_speedup.sh`: Measures build speedup based on the safe interval.  
 
-#### 3.7. Section 4.3: Dataset Hardness
-- The hardness of the dataset has already been measured when generating the query file (`./scripts/generate.sh`), and the results are saved in `results/dataset_hardness.csv`.
-- `./scripts/graphs/fig5_hardness.py`: Reproduce graph.
+- **Reproduce Figure:**  
+  - `python3 ./scripts/graphs/fig10_build_speedup.py`  
 
-### 4. Flexibility 
-- You can conduct various experiments by referring to sections 3.1 to 3.4 of the README.md.
+- **Configurations:**  
+  - **Index:** sRMI, sPGM, sRS, sCHT  
+  - **Dataset:** 8 different datasets listed in `datasets_speedup.txt`  
+  - **Compiler Macro:** `SPEEDUP` in `\benchmarks`  
+
+### **3.5. Section 5.3: Design Space**  
+- **Experiment:**  
+  - `./scripts/reproduce/reproduce_design_space.sh`: Measures the broadened design space through sampling.  
+
+- **Reproduce Figure:**  
+  - `python3 ./scripts/graphs/fig11_design_space.py`  
+
+- **Configurations:**  
+  - **Index Structure:** sRMI, sPGM, sRS, sCHT  
+  - **Dataset:** `history` listed in `datasets_meta.txt`  
+  - **Compiler Macro:** `DESIGNSPACE` in `\benchmarks`  
+
+### **3.6. Section 5.4: Pareto Analysis**  
+- **Experiment:**  
+  - `./scripts/reproduce/reproduce_pareto_avg.sh`: Compares the average lookup latency based on build time.  
+  - `./scripts/reproduce/reproduce_pareto_avg.sh`: Compares the 99.9th percentile lookup latency based on build time.  
+
+- **Reproduce Figure:**  
+  - `python3 ./scripts/graphs/fig12_13_pareto.py`  
+
+- **Configurations:**  
+  - **Index Structure:** Binary Search, sART, sBTree, sIBTree, sRT, sCHT, sRMI, sPGM, sRS  
+  - **Dataset:** 6 different datasets listed in `datasets_pareto.txt`  
+  - **Compiler Macro:**  
+    - Average Latency: `PARETO_AVG_STACK`, `PARETO_AVG_COVID`, `PARETO_AVG_HISTORY`, `PARETO_AVG_BOOKS`, `PARETO_AVG_OSM`, `PARETO_AVG_GENOME` in `\benchmarks`  
+    - Tail Latency: `PARETO_TAIL_STACK`, `PARETO_TAIL_COVID`, `PARETO_TAIL_HISTORY`, `PARETO_TAIL_BOOKS`, `PARETO_TAIL_OSM`, `PARETO_TAIL_GENOME` in `\benchmarks`  
+
+### **3.7. Section 4.3: Dataset Hardness**  
+- **Experiment:**  
+  - Dataset hardness is measured during query file generation (`./scripts/generate.sh`), and results are saved in `results/dataset_hardness.csv`.  
+
+- **Reproduce Figure:**  
+  - `python3 ./scripts/graphs/fig5_hardness.py`  
+
+### **4. Flexibility**  
+- **Datasets:**  
+  - Modify the dataset list file specified in each experimental configuration in Section 3 to conduct experiments with different datasets.  
+  - For more details about the datasets, refer to Section 3.2 of the README.  
+
+- **Index Parameters:**  
+  - By modifying the index parameters of the macro options specified in each experimental configuration in Section 3, you can conduct experiments with adjusted parameters.  
+  - These changes will impact metrics such as lookup latency, build time, index size, and performance counters.  
+  - For more details about the index parameters, refer to Sections 3.3 and 3.4 of the README.  
+
+- **New Experiments:**  
+  - Refer to Sections 3.1 through 3.4 of the README to conduct new experiments with different datasets and parameters.  
